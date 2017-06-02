@@ -1,0 +1,201 @@
+---
+title: volt.guru
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset='UTF-8'>
+	<title>volt.guru</title>
+	<link href="http://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="http://www.volt-lang.org/css/style.css" type="text/css" />
+	<link rel="stylesheet" href="jquery-ui.css" type="text/css" />
+	<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+	<!-- most of this style and java script code comes from docs.gl -->
+	<style>
+		#commandlist {
+			width: 600px;
+			margin-top: 5px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		#search-container {
+			width: 100%;
+			margin-top: 30px;
+			margin-bottom: 10px;
+			margin-left: auto;
+			margin-right: auto;
+			text-align: center;
+		}
+
+		#kind-select-button {
+			font-size: 14px;
+			border: none;
+			border-radius: 4px;
+			outline: none;
+			padding: 1px;
+			float:left;
+		}
+
+		.center-container {
+			margin-left: auto;
+			margin-right: auto;
+			text-align: center;
+			display: inline-block;
+		}
+
+		.listsearch {
+			display: none;
+		}
+
+		.listname {
+			display: block;
+			float: left;
+			margin: 2px;
+			text-align: left;
+			padding: 2px;
+		}
+
+		.hidden {
+			display: none !important;
+		}
+
+		.indexcommand {
+			width: 100%;
+			/*padding: 4px;*/
+			/*margin-bottom: 10px;*/
+			display: inline-block;
+			-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+			-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+			box-sizing: border-box;         /* Opera/IE 8+ */
+		}
+	</style>
+	<!-- most of this style and java script code comes from docs.gl -->
+	<script>
+		$(function() {
+			window.search_type = "all";
+
+			front_filter_fn = function() {
+
+				kind = window.search_type.replace(".", "");
+				if (!kind || typeof kind == 'undefined') {
+					kind = 'all';
+				}
+
+				search_str = $("#frontsearch").val().toLowerCase();
+
+				hide_commands = function() {
+					$(this).addClass("hidden");
+
+					command_search = $(".listsearch", this).text().toLowerCase();
+
+					if (command_search.indexOf(search_str) == -1) {
+						return;
+					}
+
+					if (kind == 'all') {
+						$(this).removeClass("hidden");
+					} else {
+						var classList = $(this).attr('class').split(/\s+/);
+						for (var i = 0; i < classList.length; i++) {
+							if (classList[i] === kind) {
+								$(this).removeClass("hidden");
+								break;
+							}
+						}
+					}
+				};
+
+				$(".indexcommand").each(hide_commands);
+			}
+
+			$("#kind-select").selectmenu({
+				width: 75,
+				change: function( event, ui ) {
+					window.search_type = ui.item.value;
+					front_filter_fn();
+				}
+			});
+
+			$("#frontsearch").keyup(front_filter_fn);
+		});
+	</script>
+</head>
+<body>
+	{% include header.html %}
+	<article>
+		<div id="search-container">
+			<div class="center-container">
+				<select id="kind-select">
+					<option selected='selected' value='all'>All</option>
+					<option value="project">Project</option>
+					<option value="page">Pages</option>
+					<option value="mod">Modules</option>
+					<option value="enum">Enums</option>
+					<option value="alias">Alias</option>
+					<option value="class">Classes</option>
+					<option value="struct">Structs</option>
+					<option value="fn">Functions</option>
+				</select>
+				<input id="frontsearch" size=50 autofocus />
+			</div>
+		</div>
+<span class='indexcommand project'>
+	<span class='listname'>project <a href="volta/">Volta</a> - The compiler behind Volt.</span>
+	<span class='listsearch'>project diode</span>
+</span>
+<span class='indexcommand project'>
+	<span class='listname'>project <a href="diode/">Diode</a> - Documentation engine (made this site).</span>
+	<span class='listsearch'>project diode</span>
+</span>
+<span class='indexcommand project'>
+	<span class='listname'>project <a href="charge/">Charge</a> - Voxel experiments.</span>
+	<span class='listsearch'>project diode</span>
+</span>
+<span class='indexcommand project'>
+	<span class='listname'>project <a href="metal/">Metal</a> - Conducting bare metal research.</span>
+	<span class='listsearch'>project metal</span>
+</span>
+<span class='indexcommand page'>
+	<span class='listname'>page <a href="modules.html">All Modules</a></span>
+	<span class='listsearch'>All Modules</span>
+</span>
+{%- for mod in doc.modules -%}
+<span class='indexcommand mod'>
+	<span class='listname'>module <a href="{{ mod.url }}">{{ mod.name }}</a></span>
+	<span class='listsearch'>{{ mod.name }}</span>
+</span>
+{%- endfor -%}
+{%- for mod in doc.modules -%}
+{%- for class in mod.classes -%}
+<span class='indexcommand class'>
+	<span class='listname'>class {{ mod.name }}.{{ class.name }} { }</span>
+	<span class='listsearch'>{{ mod.name }}.{{ class.name }}</span>
+</span>
+{%- endfor -%}
+{%- endfor -%}
+{%- for mod in doc.modules -%}
+{%- for func in mod.functions -%}
+<span class='indexcommand fn'>
+	<span class='listname'>fn {{ mod.name }}.{{ func.name }}(
+{%- for arg in func.args -%}
+{{- arg.type -}}
+{%- unless forloop.last %}, {% endif -%}
+{%- endfor %}) {% for r in func.rets -%}
+{{- r.type -}}
+{%- endfor -%}
+{%- if func.hasBody %} { }{% endif -%}
+{%- unless func.hasBody -%};{% endif -%}
+</span>
+	<span class='listsearch'>{{ mod.name }}.{{ func.name }}</span>
+</span>
+{%- endfor -%}
+{%- endfor -%}
+		</div>
+	</article>
+</body>
+</html>
+
+  </body>
+</html>
