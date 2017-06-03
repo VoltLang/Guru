@@ -7,6 +7,7 @@ METAL_DIR ?= metal
 CHARGE_DIR ?= charge
 BATTERY_DIR ?= battery
 
+JSON_DIR ?= $(GURU_DIR)/_tmp
 OUTPUT_DIR ?= $(GURU_DIR)/_output
 
 DIODE ?= $(shell which diode)
@@ -31,12 +32,12 @@ CHARGE_FLAGS = $(BASE_FLAGS) $(VDOC_CHARGE_FILES) -J $(CHARGE_DIR)/res
 BATTERY_FLAGS = $(BASE_FLAGS) $(VDOC_BATTERY_FILES)
 
 
-GURU_JSON = $(GURU_DIR)/_tmp/guru.json
-VOLTA_JSON = $(GURU_DIR)/_tmp/volta.json
-DIODE_JSON = $(GURU_DIR)/_tmp/diode.json
-METAL_JSON = $(GURU_DIR)/_tmp/metal.json
-CHARGE_JSON = $(GURU_DIR)/_tmp/charge.json
-BATTERY_JSON = $(GURU_DIR)/_tmp/battery.json
+GURU_JSON = $(JSON_DIR)/guru.json
+VOLTA_JSON = $(JSON_DIR)/volta.json
+DIODE_JSON = $(JSON_DIR)/diode.json
+METAL_JSON = $(JSON_DIR)/metal.json
+CHARGE_JSON = $(JSON_DIR)/charge.json
+BATTERY_JSON = $(JSON_DIR)/battery.json
 
 VDOC_JSON = $(GURU_JSON) $(DIODE_JSON) $(METAL_JSON) $(VOLTA_JSON) $(CHARGE_JSON) $(BATTERY_JSON)
 
