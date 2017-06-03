@@ -1,4 +1,5 @@
 
+AMP_DIR ?= amp
 GURU_DIR ?= guru
 WATT_DIR ?= watt
 VOLTA_DIR ?= volta
@@ -17,6 +18,7 @@ BASE_FLAGS=--no-backend -jo $@ \
 	--lib-I $(VOLTA_DIR)/rt/src \
 	--lib-I $(WATT_DIR)/src
 
+VDOC_AMP_FILES=$(shell find amp/src -type f -name "*.volt")
 VDOC_GURU_FILES=$(shell find watt/src volta/rt/src/core -type f)
 VDOC_VOLTA_FILES=$(VOLTA_DIR)/src/main.d
 VDOC_METAL_FILES=$(shell find $(METAL_DIR)/src -type f -name "*.volt")
@@ -24,6 +26,7 @@ VDOC_DIODE_FILES=$(shell find $(DIODE_DIR)/src -type f -name "*.volt")
 VDOC_CHARGE_FILES=$(shell find $(CHARGE_DIR)/src -type f -name "*.volt")
 VDOC_BATTERY_FILES=$(shell find $(BATTERY_DIR)/src -type f -name "*.volt")
 
+AMP_FLAGS = $(BASE_FLAGS) $(VDOC_AMP_FILES)
 GURU_FLAGS = $(BASE_FLAGS) $(VDOC_GURU_FILES)
 VOLTA_FLAGS = $(BASE_FLAGS) $(VDOC_VOLTA_FILES) --internal-d --src-I $(VOLTA_DIR)/src
 METAL_FLAGS = $(BASE_FLAGS) $(VDOC_METAL_FILES)
@@ -32,6 +35,7 @@ CHARGE_FLAGS = $(BASE_FLAGS) $(VDOC_CHARGE_FILES) -J $(CHARGE_DIR)/res
 BATTERY_FLAGS = $(BASE_FLAGS) $(VDOC_BATTERY_FILES)
 
 
+AMP_JSON = $(AMP_DIR)/amp.json
 GURU_JSON = $(JSON_DIR)/guru.json
 VOLTA_JSON = $(JSON_DIR)/volta.json
 DIODE_JSON = $(JSON_DIR)/diode.json
@@ -40,6 +44,7 @@ CHARGE_JSON = $(JSON_DIR)/charge.json
 BATTERY_JSON = $(JSON_DIR)/battery.json
 
 VDOC_JSON = \
+	$(AMP_JSON) \
 	$(GURU_JSON) \
 	$(DIODE_JSON) \
 	$(METAL_JSON) \
@@ -53,6 +58,10 @@ VDOC_JSON = \
 #
 
 all: docu
+
+$(AMP_JSON): $(VOLTA) $(VDOC_AMP_FILES)
+	@echo "  VOLTA    $@"
+	@$(VOLTA) $(AMP_FLAGS)
 
 $(GURU_JSON): $(VOLTA) $(VDOC_GURU_FILES)
 	@echo "  VOLTA    $@"
@@ -86,6 +95,10 @@ docu: $(VDOC_JSON) $(DIODE)
 		-s $(GURU_DIR) -d $(OUTPUT_DIR) \
 		--baseurl "http://volt.guru" \
 		$(GURU_JSON)
+	@$(DIODE) \
+		-s $(AMP_DIR)/doc -d $(OUTPUT_DIR)/amp \
+		--baseurl "http://volt.guru/amp" \
+		$(AMP_JSON)
 	@$(DIODE) \
 		-s $(VOLTA_DIR)/doc -d $(OUTPUT_DIR)/volta \
 		--baseurl "http://volt.guru/volta" \
