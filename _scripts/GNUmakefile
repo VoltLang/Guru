@@ -4,6 +4,7 @@ WATT_DIR ?= watt
 VOLTA_DIR ?= volta
 DIODE_DIR ?= diode
 METAL_DIR ?= metal
+PARSEC_DIR ?= parsec
 CHARGE_DIR ?= charge
 BATTERY_DIR ?= battery
 
@@ -21,6 +22,7 @@ VDOC_GURU_FILES=$(shell find watt/src volta/rt/src/core -type f)
 VDOC_VOLTA_FILES=$(VOLTA_DIR)/src/main.d
 VDOC_METAL_FILES=$(shell find $(METAL_DIR)/src -type f -name "*.volt")
 VDOC_DIODE_FILES=$(shell find $(DIODE_DIR)/src -type f -name "*.volt")
+VDOC_PARSEC_FILES=$(shell find $(PARSEC_DIR)/src -type f -name "*.volt")
 VDOC_CHARGE_FILES=$(shell find $(CHARGE_DIR)/src -type f -name "*.volt")
 VDOC_BATTERY_FILES=$(shell find $(BATTERY_DIR)/src -type f -name "*.volt")
 
@@ -28,6 +30,7 @@ GURU_FLAGS = $(BASE_FLAGS) $(VDOC_GURU_FILES)
 VOLTA_FLAGS = $(BASE_FLAGS) $(VDOC_VOLTA_FILES) --internal-d --src-I $(VOLTA_DIR)/src
 METAL_FLAGS = $(BASE_FLAGS) $(VDOC_METAL_FILES)
 DIODE_FLAGS = $(BASE_FLAGS) $(VDOC_DIODE_FILES) -J $(DIODE_DIR)/res
+PARSEC_FLAGS = $(BASE_FLAGS) $(VDOC_PARSEC_FILES)
 CHARGE_FLAGS = $(BASE_FLAGS) $(VDOC_CHARGE_FILES) -J $(CHARGE_DIR)/res
 BATTERY_FLAGS = $(BASE_FLAGS) $(VDOC_BATTERY_FILES)
 
@@ -36,6 +39,7 @@ GURU_JSON = $(JSON_DIR)/guru.json
 VOLTA_JSON = $(JSON_DIR)/volta.json
 DIODE_JSON = $(JSON_DIR)/diode.json
 METAL_JSON = $(JSON_DIR)/metal.json
+PARSEC_JSON = $(JSON_DIR)/parsec.json
 CHARGE_JSON = $(JSON_DIR)/charge.json
 BATTERY_JSON = $(JSON_DIR)/battery.json
 
@@ -44,6 +48,7 @@ VDOC_JSON = \
 	$(DIODE_JSON) \
 	$(METAL_JSON) \
 	$(VOLTA_JSON) \
+	$(PARSEC_JSON) \
 	$(CHARGE_JSON) \
 	$(BATTERY_JSON)
 
@@ -69,6 +74,10 @@ $(DIODE_JSON): $(VOLTA) $(VDOC_DIODE_FILES)
 $(METAL_JSON): $(VOLTA) $(VDOC_METAL_FILES)
 	@echo "  VOLTA    $@"
 	@$(VOLTA) $(METAL_FLAGS)
+
+$(PARSEC_JSON): $(VOLTA) $(VDOC_PARSEC_FILES)
+	@echo "  VOLTA    $@"
+	@$(VOLTA) $(PARSEC_FLAGS)
 
 $(CHARGE_JSON): $(VOLTA) $(VDOC_CHARGE_FILES)
 	@echo "  VOLTA    $@"
@@ -98,6 +107,10 @@ docu: $(VDOC_JSON) $(DIODE)
 		-s $(METAL_DIR)/doc -d $(OUTPUT_DIR)/metal \
 		--baseurl "http://volt.guru/metal" \
 		$(METAL_JSON)
+	@$(DIODE) \
+		-s $(PARSEC_DIR)/doc -d $(OUTPUT_DIR)/parsec \
+		--baseurl "http://volt.guru/parsec" \
+		$(PARSEC_JSON)
 	@$(DIODE) \
 		-s $(CHARGE_DIR)/doc -d $(OUTPUT_DIR)/charge \
 		--baseurl "http://volt.guru/charge" \
