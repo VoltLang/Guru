@@ -66,34 +66,42 @@ all: docu
 
 $(AMP_JSON): $(VOLTA) $(VDOC_AMP_FILES)
 	@echo "  VOLTA    $@"
+	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(AMP_FLAGS)
 
 $(GURU_JSON): $(VOLTA) $(VDOC_GURU_FILES)
 	@echo "  VOLTA    $@"
+	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(GURU_FLAGS)
 
 $(VOLTA_JSON): $(VOLTA) $(VDOC_VOLTA_FILES)
 	@echo "  VOLTA    $@"
+	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(VOLTA_FLAGS)
 
 $(DIODE_JSON): $(VOLTA) $(VDOC_DIODE_FILES)
 	@echo "  VOLTA    $@"
+	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(DIODE_FLAGS)
 
 $(METAL_JSON): $(VOLTA) $(VDOC_METAL_FILES)
 	@echo "  VOLTA    $@"
+	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(METAL_FLAGS)
 
 $(PARSEC_JSON): $(VOLTA) $(VDOC_PARSEC_FILES)
 	@echo "  VOLTA    $@"
+	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(PARSEC_FLAGS)
 
 $(CHARGE_JSON): $(VOLTA) $(VDOC_CHARGE_FILES)
 	@echo "  VOLTA    $@"
+	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(CHARGE_FLAGS)
 
 $(BATTERY_JSON): $(VOLTA) $(VDOC_CHARGE_FILES)
 	@echo "  VOLTA    $@"
+	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(BATTERY_FLAGS)
 
 docu: $(VDOC_JSON) $(DIODE)
