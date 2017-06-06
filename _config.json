@@ -1,3 +1,6 @@
 {
-  "vdocProject": "Volt Guru"
+  "title": "Volt Guru",
+  "vdoc": {
+    "name": "Core"
+  }
 }
