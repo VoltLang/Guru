@@ -4,6 +4,7 @@ GURU_DIR ?= guru
 WATT_DIR ?= watt
 VOLTA_DIR ?= volta
 DIODE_DIR ?= diode
+TESLA_DIR ?= tesla
 METAL_DIR ?= metal
 PARSEC_DIR ?= parsec
 CHARGE_DIR ?= charge
@@ -22,8 +23,9 @@ BASE_FLAGS=--no-backend -jo $@ \
 VDOC_AMP_FILES=$(shell find amp/src -type f -name "*.volt")
 VDOC_GURU_FILES=$(shell find watt/src volta/rt/src/core -type f)
 VDOC_VOLTA_FILES=$(VOLTA_DIR)/src/main.d
-VDOC_METAL_FILES=$(shell find $(METAL_DIR)/src -type f -name "*.volt")
 VDOC_DIODE_FILES=$(shell find $(DIODE_DIR)/src -type f -name "*.volt")
+VDOC_TESLA_FILES=$(shell find $(TESLA_DIR)/src -type f -name "*.volt")
+VDOC_METAL_FILES=$(shell find $(METAL_DIR)/src -type f -name "*.volt")
 VDOC_PARSEC_FILES=$(shell find $(PARSEC_DIR)/src -type f -name "*.volt")
 VDOC_CHARGE_FILES=$(shell find $(CHARGE_DIR)/src -type f -name "*.volt")
 VDOC_BATTERY_FILES=$(shell find $(BATTERY_DIR)/src -type f -name "*.volt")
@@ -31,8 +33,9 @@ VDOC_BATTERY_FILES=$(shell find $(BATTERY_DIR)/src -type f -name "*.volt")
 AMP_FLAGS = $(BASE_FLAGS) $(VDOC_AMP_FILES)
 GURU_FLAGS = $(BASE_FLAGS) $(VDOC_GURU_FILES)
 VOLTA_FLAGS = $(BASE_FLAGS) $(VDOC_VOLTA_FILES) --internal-d --src-I $(VOLTA_DIR)/src
-METAL_FLAGS = $(BASE_FLAGS) $(VDOC_METAL_FILES)
 DIODE_FLAGS = $(BASE_FLAGS) $(VDOC_DIODE_FILES) -J $(DIODE_DIR)/res
+TESLA_FLAGS = $(BASE_FLAGS) $(VDOC_TESLA_FILES)
+METAL_FLAGS = $(BASE_FLAGS) $(VDOC_METAL_FILES)
 PARSEC_FLAGS = $(BASE_FLAGS) $(VDOC_PARSEC_FILES)
 CHARGE_FLAGS = $(BASE_FLAGS) $(VDOC_CHARGE_FILES) -J $(CHARGE_DIR)/res
 BATTERY_FLAGS = $(BASE_FLAGS) $(VDOC_BATTERY_FILES)
@@ -42,6 +45,7 @@ AMP_JSON = $(JSON_DIR)/amp.json
 GURU_JSON = $(JSON_DIR)/guru.json
 VOLTA_JSON = $(JSON_DIR)/volta.json
 DIODE_JSON = $(JSON_DIR)/diode.json
+TESLA_JSON = $(JSON_DIR)/tesla.json
 METAL_JSON = $(JSON_DIR)/metal.json
 PARSEC_JSON = $(JSON_DIR)/parsec.json
 CHARGE_JSON = $(JSON_DIR)/charge.json
@@ -50,9 +54,10 @@ BATTERY_JSON = $(JSON_DIR)/battery.json
 VDOC_JSON = \
 	$(AMP_JSON) \
 	$(GURU_JSON) \
-	$(DIODE_JSON) \
-	$(METAL_JSON) \
 	$(VOLTA_JSON) \
+	$(DIODE_JSON) \
+	$(TESLA_JSON) \
+	$(METAL_JSON) \
 	$(PARSEC_JSON) \
 	$(CHARGE_JSON) \
 	$(BATTERY_JSON)
@@ -83,6 +88,10 @@ $(DIODE_JSON): $(VOLTA) $(VDOC_DIODE_FILES)
 	@echo "  VOLTA    $@"
 	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(DIODE_FLAGS)
+
+$(TESLA_JSON): $(VOLTA) $(VDOC_TESLA_FILES)
+	@echo "  VOLTA    $@"
+	@$(VOLTA) $(TESLA_FLAGS)
 
 $(METAL_JSON): $(VOLTA) $(VDOC_METAL_FILES)
 	@echo "  VOLTA    $@"
@@ -124,6 +133,10 @@ docu: $(VDOC_JSON) $(DIODE)
 		-s $(DIODE_DIR)/doc -d $(OUTPUT_DIR)/diode \
 		--baseurl "http://volt.guru/diode" \
 		$(DIODE_JSON)
+	@$(DIODE) \
+		-s $(TESLA_DIR)/doc -d $(OUTPUT_DIR)/tesla \
+		--baseurl "http://volt.guru/tesla" \
+		$(TESLA_JSON)
 	@$(DIODE) \
 		-s $(METAL_DIR)/doc -d $(OUTPUT_DIR)/metal \
 		--baseurl "http://volt.guru/metal" \
