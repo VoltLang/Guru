@@ -21,7 +21,7 @@ BASE_FLAGS=--no-backend -jo $@ \
 	--lib-I $(WATT_DIR)/src
 
 VDOC_AMP_FILES=$(shell find $(AMP_DIR)/src -type f -name "*.volt")
-VDOC_GURU_FILES=$(shell find watt/src volta/rt/src/core -type f)
+VDOC_GURU_FILES=$(shell find $(WATT_DIR)/src $(VOLTA_DIR)/rt/src/core -type f -name "*.volt")
 VDOC_VOLTA_FILES=$(VOLTA_DIR)/src/main.d
 VDOC_DIODE_FILES=$(shell find $(DIODE_DIR)/src -type f -name "*.volt")
 VDOC_TESLA_FILES=$(shell find $(TESLA_DIR)/src -type f -name "*.volt")
