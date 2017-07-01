@@ -181,6 +181,12 @@ title: volt.guru
 	<span class='listname'>page <a href="vdoc/modules.html">All Modules</a></span>
 	<span class='listsearch'>All Modules</span>
 </span>
+{%- for group in doc.groups -%}
+<span class='indexcommand mod'>
+	<span class='listname'>page <a href="{{ group.url }}">{{ group.name }}</a></span>
+	<span class='listsearch'>{{ group.name }}</span>
+</span>
+{%- endfor -%}
 {%- for mod in doc.modules -%}
 <span class='indexcommand mod'>
 	<span class='listname'>module <a href="{{ mod.url }}">{{ mod.name }}</a></span>
