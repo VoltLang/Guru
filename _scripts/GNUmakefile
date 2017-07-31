@@ -100,6 +100,7 @@ $(DIODE_JSON): $(VOLTA) $(VDOC_DIODE_FILES)
 
 $(TESLA_JSON): $(VOLTA) $(VDOC_TESLA_FILES)
 	@echo "  VOLTA    $@"
+	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(TESLA_FLAGS)
 
 $(METAL_JSON): $(VOLTA) $(VDOC_METAL_FILES)
@@ -117,7 +118,7 @@ $(CHARGE_JSON): $(VOLTA) $(VDOC_CHARGE_FILES)
 	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(CHARGE_FLAGS)
 
-$(BATTERY_JSON): $(VOLTA) $(VDOC_CHARGE_FILES)
+$(BATTERY_JSON): $(VOLTA) $(VDOC_BATTERY_FILES)
 	@echo "  VOLTA    $@"
 	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(BATTERY_FLAGS)
