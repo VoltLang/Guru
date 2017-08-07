@@ -143,6 +143,11 @@ docu: $(VDOC_JSON) $(DIODE)
 		-s $(AMP_DIR)/doc -d $(OUTPUT_DIR)/amp \
 		--baseurl "$(BASE_URL)/amp" \
 		$(AMP_JSON)
+	@echo "  DIODE    watt"
+	@$(DIODE) \
+		-s $(WATT_DIR)/doc -d $(OUTPUT_DIR)/watt \
+		--baseurl "$(BASE_URL)/watt" \
+		$(WATT_JSON)
 	@echo "  DIODE    volta"
 	@$(DIODE) \
 		-s $(VOLTA_DIR)/doc -d $(OUTPUT_DIR)/volta \
