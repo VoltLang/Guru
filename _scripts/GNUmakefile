@@ -125,7 +125,7 @@ $(BATTERY_JSON): $(VOLTA) $(VDOC_BATTERY_FILES)
 	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(BATTERY_FLAGS)
 
-docu: $(VDOC_JSON) $(DIODE)
+first: $(WATT_JSON) $(DIODE)
 	@rm -rf $(OUTPUT_DIR)
 	@cp -r $(GURU_DIR)/_site $(OUTPUT_DIR)
 	@echo "  DIODE    guru"
@@ -133,56 +133,77 @@ docu: $(VDOC_JSON) $(DIODE)
 		-s $(GURU_DIR) -d $(OUTPUT_DIR) \
 		--baseurl "$(BASE_URL)" \
 		$(WATT_JSON)
+
+docu-rt: first $(RT_JSON) $(DIODE)
 	@echo "  DIODE    rt"
 	@$(DIODE) \
 		-s $(RT_DIR)/doc -d $(OUTPUT_DIR)/rt \
 		--baseurl "$(BASE_URL)/rt" \
 		$(RT_JSON)
+
+docu-amp: first $(AMP_JSON) $(DIODE)
 	@echo "  DIODE    amp"
 	@$(DIODE) \
 		-s $(AMP_DIR)/doc -d $(OUTPUT_DIR)/amp \
 		--baseurl "$(BASE_URL)/amp" \
 		$(AMP_JSON)
+
+docu-watt: first $(WATT_JSON) $(DIODE)
 	@echo "  DIODE    watt"
 	@$(DIODE) \
 		-s $(WATT_DIR)/doc -d $(OUTPUT_DIR)/watt \
 		--baseurl "$(BASE_URL)/watt" \
 		$(WATT_JSON)
+
+docu-volta: first $(VOLTA_JSON) $(DIODE)
 	@echo "  DIODE    volta"
 	@$(DIODE) \
 		-s $(VOLTA_DIR)/doc -d $(OUTPUT_DIR)/volta \
 		--baseurl "$(BASE_URL)/volta" \
 		$(VOLTA_JSON)
+
+docu-diode: first $(DIODE_JSON) $(DIODE)
 	@echo "  DIODE    diode"
 	@$(DIODE) \
 		-s $(DIODE_DIR)/doc -d $(OUTPUT_DIR)/diode \
 		--baseurl "$(BASE_URL)/diode" \
 		$(DIODE_JSON)
+
+docu-tesla: first $(TESLA_JSON) $(DIODE)
 	@echo "  DIODE    tesla"
 	@$(DIODE) \
 		-s $(TESLA_DIR)/doc -d $(OUTPUT_DIR)/tesla \
 		--baseurl "$(BASE_URL)/tesla" \
 		$(TESLA_JSON)
+
+docu-metal: first $(METAL_JSON) $(DIODE)
 	@echo "  DIODE    metal"
 	@$(DIODE) \
 		-s $(METAL_DIR)/doc -d $(OUTPUT_DIR)/metal \
 		--baseurl "$(BASE_URL)/metal" \
 		$(METAL_JSON)
+
+docu-parsec: first $(PARSEC_JSON) $(DIODE)
 	@echo "  DIODE    parsec"
 	@$(DIODE) \
 		-s $(PARSEC_DIR)/doc -d $(OUTPUT_DIR)/parsec \
 		--baseurl "$(BASE_URL)/parsec" \
 		$(PARSEC_JSON)
+
+docu-charge: first $(CHARGE_JSON) $(DIODE)
 	@echo "  DIODE    charge"
 	@$(DIODE) \
 		-s $(CHARGE_DIR)/doc -d $(OUTPUT_DIR)/charge \
 		--baseurl "$(BASE_URL)/charge" \
 		$(CHARGE_JSON)
+
+docu-battery: first $(BATTERY_JSON) $(DIODE)
 	@echo "  DIODE    battery"
 	@$(DIODE) \
 		-s $(BATTERY_DIR)/doc -d $(OUTPUT_DIR)/battery \
 		--baseurl "$(BASE_URL)/battery" \
 		$(BATTERY_JSON)
 
+docu: docu-rt docu-amp docu-watt docu-volta docu-diode docu-tesla docu-metal docu-parsec docu-charge docu-battery
 
-.PHONY: all guru
+.PHONY: all guru first
