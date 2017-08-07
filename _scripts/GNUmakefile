@@ -1,4 +1,6 @@
 
+BASE_URL ?= http://volt.guru
+RT_DIR ?= $(VOLTA_DIR)/rt
 AMP_DIR ?= amp
 GURU_DIR ?= guru
 WATT_DIR ?= watt
@@ -20,9 +22,9 @@ BASE_FLAGS=--no-backend -jo $@ \
 	--lib-I $(VOLTA_DIR)/rt/src \
 	--lib-I $(WATT_DIR)/src
 
+VDOC_RT_FILES=$(shell find $(RT_DIR)/src -type f -name "*.volt")
 VDOC_AMP_FILES=$(shell find $(AMP_DIR)/src -type f -name "*.volt")
-VDOC_VRT_FILES=$(shell find $(VOLTA_DIR)/rt/src/vrt -type f -name "*.volt")
-VDOC_GURU_FILES=$(shell find $(WATT_DIR)/src $(VOLTA_DIR)/rt/src/core -type f -name "*.volt")
+VDOC_WATT_FILES=$(shell find $(WATT_DIR)/src -type f -name "*.volt")
 VDOC_VOLTA_FILES=$(VOLTA_DIR)/src/main.d
 VDOC_DIODE_FILES=$(shell find $(DIODE_DIR)/src -type f -name "*.volt")
 VDOC_TESLA_FILES=$(shell find $(TESLA_DIR)/src -type f -name "*.volt")
@@ -31,9 +33,9 @@ VDOC_PARSEC_FILES=$(shell find $(PARSEC_DIR)/src -type f -name "*.volt")
 VDOC_CHARGE_FILES=$(shell find $(CHARGE_DIR)/src -type f -name "*.volt")
 VDOC_BATTERY_FILES=$(shell find $(BATTERY_DIR)/src -type f -name "*.volt")
 
+RT_FLAGS = $(BASE_FLAGS) $(VDOC_RT_FILES)
 AMP_FLAGS = $(BASE_FLAGS) $(VDOC_AMP_FILES)
-VRT_FLAGS = $(BASE_FLAGS) $(VDOC_VRT_FILES)
-GURU_FLAGS = $(BASE_FLAGS) $(VDOC_GURU_FILES)
+WATT_FLAGS = $(BASE_FLAGS) $(VDOC_WATT_FILES)
 VOLTA_FLAGS = $(BASE_FLAGS) $(VDOC_VOLTA_FILES) --internal-d --src-I $(VOLTA_DIR)/src
 DIODE_FLAGS = $(BASE_FLAGS) $(VDOC_DIODE_FILES) -J $(DIODE_DIR)/res
 TESLA_FLAGS = $(BASE_FLAGS) $(VDOC_TESLA_FILES)
@@ -43,9 +45,9 @@ CHARGE_FLAGS = $(BASE_FLAGS) $(VDOC_CHARGE_FILES) -J $(CHARGE_DIR)/res
 BATTERY_FLAGS = $(BASE_FLAGS) $(VDOC_BATTERY_FILES)
 
 
+RT_JSON = $(JSON_DIR)/rt.json
 AMP_JSON = $(JSON_DIR)/amp.json
-VRT_JSON = $(JSON_DIR)/vrt.json
-GURU_JSON = $(JSON_DIR)/guru.json
+WATT_JSON = $(JSON_DIR)/watt.json
 VOLTA_JSON = $(JSON_DIR)/volta.json
 DIODE_JSON = $(JSON_DIR)/diode.json
 TESLA_JSON = $(JSON_DIR)/tesla.json
@@ -55,9 +57,9 @@ CHARGE_JSON = $(JSON_DIR)/charge.json
 BATTERY_JSON = $(JSON_DIR)/battery.json
 
 VDOC_JSON = \
+	$(RT_JSON) \
 	$(AMP_JSON) \
-	$(VRT_JSON) \
-	$(GURU_JSON) \
+	$(WATT_JSON) \
 	$(VOLTA_JSON) \
 	$(DIODE_JSON) \
 	$(TESLA_JSON) \
@@ -73,20 +75,20 @@ VDOC_JSON = \
 
 all: docu
 
+$(RT_JSON): $(VOLTA) $(VDOC_RT_FILES)
+	@echo "  VOLTA    $@"
+	@mkdir -p "$(dir $@)"
+	@$(VOLTA) $(RT_FLAGS)
+
 $(AMP_JSON): $(VOLTA) $(VDOC_AMP_FILES)
 	@echo "  VOLTA    $@"
 	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(AMP_FLAGS)
 
-$(VRT_JSON): $(VOLTA) $(VDOC_VRT_FILES)
+$(WATT_JSON): $(VOLTA) $(VDOC_WATT_FILES)
 	@echo "  VOLTA    $@"
 	@mkdir -p "$(dir $@)"
-	@$(VOLTA) $(VRT_FLAGS)
-
-$(GURU_JSON): $(VOLTA) $(VDOC_GURU_FILES)
-	@echo "  VOLTA    $@"
-	@mkdir -p "$(dir $@)"
-	@$(VOLTA) $(GURU_FLAGS)
+	@$(VOLTA) $(WATT_FLAGS)
 
 $(VOLTA_JSON): $(VOLTA) $(VDOC_VOLTA_FILES)
 	@echo "  VOLTA    $@"
@@ -124,48 +126,57 @@ $(BATTERY_JSON): $(VOLTA) $(VDOC_BATTERY_FILES)
 	@$(VOLTA) $(BATTERY_FLAGS)
 
 docu: $(VDOC_JSON) $(DIODE)
-	@echo "  DIODE    site"
 	@rm -rf $(OUTPUT_DIR)
 	@cp -r $(GURU_DIR)/_site $(OUTPUT_DIR)
+	@echo "  DIODE    guru"
 	@$(DIODE) \
 		-s $(GURU_DIR) -d $(OUTPUT_DIR) \
-		--baseurl "http://volt.guru" \
-		$(GURU_JSON)
+		--baseurl "$(BASE_URL)" \
+		$(WATT_JSON)
+	@echo "  DIODE    rt"
+	@$(DIODE) \
+		-s $(RT_DIR)/doc -d $(OUTPUT_DIR)/rt \
+		--baseurl "$(BASE_URL)/rt" \
+		$(RT_JSON)
+	@echo "  DIODE    amp"
 	@$(DIODE) \
 		-s $(AMP_DIR)/doc -d $(OUTPUT_DIR)/amp \
-		--baseurl "http://volt.guru/amp" \
+		--baseurl "$(BASE_URL)/amp" \
 		$(AMP_JSON)
-	@$(DIODE) \
-		-s $(VOLTA_DIR)/rt/doc -d $(OUTPUT_DIR)/vrt \
-		--baseurl "http://volt.guru/vrt" \
-		$(VRT_JSON)
+	@echo "  DIODE    volta"
 	@$(DIODE) \
 		-s $(VOLTA_DIR)/doc -d $(OUTPUT_DIR)/volta \
-		--baseurl "http://volt.guru/volta" \
+		--baseurl "$(BASE_URL)/volta" \
 		$(VOLTA_JSON)
+	@echo "  DIODE    diode"
 	@$(DIODE) \
 		-s $(DIODE_DIR)/doc -d $(OUTPUT_DIR)/diode \
-		--baseurl "http://volt.guru/diode" \
+		--baseurl "$(BASE_URL)/diode" \
 		$(DIODE_JSON)
+	@echo "  DIODE    tesla"
 	@$(DIODE) \
 		-s $(TESLA_DIR)/doc -d $(OUTPUT_DIR)/tesla \
-		--baseurl "http://volt.guru/tesla" \
+		--baseurl "$(BASE_URL)/tesla" \
 		$(TESLA_JSON)
+	@echo "  DIODE    metal"
 	@$(DIODE) \
 		-s $(METAL_DIR)/doc -d $(OUTPUT_DIR)/metal \
-		--baseurl "http://volt.guru/metal" \
+		--baseurl "$(BASE_URL)/metal" \
 		$(METAL_JSON)
+	@echo "  DIODE    parsec"
 	@$(DIODE) \
 		-s $(PARSEC_DIR)/doc -d $(OUTPUT_DIR)/parsec \
-		--baseurl "http://volt.guru/parsec" \
+		--baseurl "$(BASE_URL)/parsec" \
 		$(PARSEC_JSON)
+	@echo "  DIODE    charge"
 	@$(DIODE) \
 		-s $(CHARGE_DIR)/doc -d $(OUTPUT_DIR)/charge \
-		--baseurl "http://volt.guru/charge" \
+		--baseurl "$(BASE_URL)/charge" \
 		$(CHARGE_JSON)
+	@echo "  DIODE    battery"
 	@$(DIODE) \
 		-s $(BATTERY_DIR)/doc -d $(OUTPUT_DIR)/battery \
-		--baseurl "http://volt.guru/battery" \
+		--baseurl "$(BASE_URL)/battery" \
 		$(BATTERY_JSON)
 
 
