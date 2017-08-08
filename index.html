@@ -63,8 +63,9 @@ title: volt.guru
 
 		.indexcommand {
 			width: 100%;
-			/*padding: 4px;*/
-			/*margin-bottom: 10px;*/
+			padding: 4px;
+			margin-bottom: 10px;
+			background-color: #e0e0e0;
 			display: inline-block;
 			-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
 			-moz-box-sizing: border-box;    /* Firefox, other Gecko */
@@ -142,54 +143,54 @@ title: volt.guru
 			</div>
 		</div>
 <span class='indexcommand project'>
-	<span class='listname'>project <a href="rt/">Volt Runtime</a> - Volt Runtime.</span>
-	<span class='listsearch'>project rt</span>
+	<span class='listname'>project <a class="vdoc-lnkblue" href="rt/">Volt Runtime</a> - Volt Runtime.</span>
+	<span class='listsearch'>project volt runtime rt</span>
 </span>
 <span class='indexcommand project'>
-	<span class='listname'>project <a href="watt/">Watt</a> - A standard library for Volt.</span>
+	<span class='listname'>project <a class="vdoc-lnkblue" href="watt/">Watt</a> - A standard library for Volt.</span>
 	<span class='listsearch'>project battery</span>
 </span>
 <span class='indexcommand project'>
-	<span class='listname'>project <a href="battery/">Battery</a> - Build system for Volt.</span>
+	<span class='listname'>project <a class="vdoc-lnkblue" href="battery/">Battery</a> - Build system for Volt.</span>
 	<span class='listsearch'>project battery</span>
 </span>
 <span class='indexcommand project'>
-	<span class='listname'>project <a href="amp/">Amp</a> - Bindings to c libraries.</span>
+	<span class='listname'>project <a class="vdoc-lnkblue" href="amp/">Amp</a> - Bindings to c libraries.</span>
 	<span class='listsearch'>project amp</span>
 </span>
 <span class='indexcommand project'>
-	<span class='listname'>project <a href="volta/">Volta</a> - The compiler behind Volt.</span>
+	<span class='listname'>project <a class="vdoc-lnkblue" href="volta/">Volta</a> - The compiler behind Volt.</span>
 	<span class='listsearch'>project volta</span>
 </span>
 <span class='indexcommand project'>
-	<span class='listname'>project <a href="parsec/">Parsec</a> - Compiler frontend as a library.</span>
+	<span class='listname'>project <a class="vdoc-lnkblue" href="parsec/">Parsec</a> - Compiler frontend as a library.</span>
 	<span class='listsearch'>project battery</span>
 </span>
 <span class='indexcommand project'>
-	<span class='listname'>project <a href="diode/">Diode</a> - Documentation engine (made this site).</span>
+	<span class='listname'>project <a class="vdoc-lnkblue" href="diode/">Diode</a> - Documentation engine (made this site).</span>
 	<span class='listsearch'>project diode</span>
 </span>
 <span class='indexcommand project'>
-	<span class='listname'>project <a href="tesla/">Tesla</a> - Convert WASM to native code.</span>
+	<span class='listname'>project <a class="vdoc-lnkblue" href="tesla/">Tesla</a> - Convert WASM to native code.</span>
 	<span class='listsearch'>project tesla</span>
 </span>
 <span class='indexcommand project'>
-	<span class='listname'>project <a href="charge/">Charge</a> - Voxel experiments.</span>
+	<span class='listname'>project <a class="vdoc-lnkblue" href="charge/">Charge</a> - Voxel experiments.</span>
 	<span class='listsearch'>project charge</span>
 </span>
 <span class='indexcommand project'>
-	<span class='listname'>project <a href="metal/">Metal</a> - Conducting bare metal research.</span>
+	<span class='listname'>project <a class="vdoc-lnkblue" href="metal/">Metal</a> - Conducting bare metal research.</span>
 	<span class='listsearch'>project metal</span>
 </span>
 {%- for group in doc.groups -%}
 <span class='indexcommand mod'>
-	<span class='listname'>page <a href="{{ group.url }}">{{ group.name }}</a></span>
+	<span class='listname'>page <a class="vdoc-lnkblue" href="{{ group.url }}">{{ group.name }}</a></span>
 	<span class='listsearch'>{{ group.name }}</span>
 </span>
 {%- endfor -%}
 {%- for mod in doc.modules -%}
 <span class='indexcommand mod'>
-	<span class='listname'>module <a href="{{ mod.url }}">{{ mod.name }}</a></span>
+	<span class='listname'>module <a class="vdoc-lnkblue" href="{{ mod.url }}">{{ mod.name }}</a></span>
 	<span class='listsearch'>{{ mod.name }}</span>
 </span>
 {%- endfor -%}
@@ -197,9 +198,9 @@ title: volt.guru
 {%- for class in mod.classes -%}
 <span class='indexcommand class'>
 {%- if class.url %}
-	<span class='listname'>class <a href="{{ mod.url }}">{{ mod.name }}</a>.<a href="{{ class.url }}">{{ class.name }}</a> { }</span>
+	<span class='listname'>class <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.</a><a class="vdoc-lnkblue" href="{{ class.url }}">{{ class.name }}</a> { }</span>
 {%- else %}
-	<span class='listname'>class <a href="{{ mod.url }}">{{ mod.name }}</a>.{{ class.name }} { }</span>
+	<span class='listname'>class <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.{{ class.name }}</a> { }</span>
 {%- endif %}
 	<span class='listsearch'>{{ mod.name }}.{{ class.name }}</span>
 </span>
@@ -210,9 +211,9 @@ title: volt.guru
 <span class='indexcommand fn'>
 
 {%- if func.url %}
-	<span class='listname'>fn <a href="{{ mod.url }}">{{ mod.name }}</a>.<a href="{{ func.url }}">{{ func.name }}</a>(
+	<span class='listname'>fn <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.</a><a class="vdoc-lnkblue" href="{{ func.url }}">{{ func.name }}</a>(
 {%- else %}
-	<span class='listname'>fn <a href="{{ mod.url }}">{{ mod.name }}</a>.{{ func.name }}(
+	<span class='listname'>fn <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.{{ func.name }}</a>(
 {%- endif -%}
 
 {%- for arg in func.args -%}
