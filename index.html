@@ -139,6 +139,7 @@ title: volt.guru
 					<option value="alias">Alias</option>
 					<option value="class">Classes</option>
 					<option value="struct">Structs</option>
+					<option value="union">Unions</option>
 					<option value="fn">Functions</option>
 				</select>
 				<input id="frontsearch" size=50 autofocus />
@@ -194,8 +195,32 @@ title: volt.guru
 {%- endfor -%}
 
 {%- for mod in doc.modules -%}
+{%- for alias in mod.aliases -%}
+{%- include index_alias.html mod=mod alias=alias -%}
+{%- endfor -%}
+{%- endfor -%}
+
+{%- for mod in doc.modules -%}
 {%- for class in mod.classes -%}
-{%- include index_class.html mod=mod class=class -%}
+{%- include index_aggr.html mod=mod aggr=class prefix="class" -%}
+{%- endfor -%}
+{%- endfor -%}
+
+{%- for mod in doc.modules -%}
+{%- for iface in mod.interfaces -%}
+{%- include index_aggr.html mod=mod aggr=iface prefix="interface" -%}
+{%- endfor -%}
+{%- endfor -%}
+
+{%- for mod in doc.modules -%}
+{%- for struct in mod.structs -%}
+{%- include index_aggr.html mod=mod aggr=struct prefix="struct" -%}
+{%- endfor -%}
+{%- endfor -%}
+
+{%- for mod in doc.modules -%}
+{%- for union in mod.unions -%}
+{%- include index_aggr.html mod=mod aggr=union prefix="union" -%}
 {%- endfor -%}
 {%- endfor -%}
 

@@ -1,0 +1,15 @@
+{%- assign mod = include.mod -%}
+{%- assign aggr = include.aggr -%}
+{%- assign prefix = include.prefix -%}
+{%- if aggr.access == "public" -%}
+
+<span class='indexcommand {{ prefix }}'>
+{%- if aggr.url %}
+	<span class='listname'>{{ prefix }} <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.</a><a class="vdoc-lnkblue" href="{{ aggr.url }}">{{ aggr.name }}</a> { }</span>
+{%- else %}
+	<span class='listname'>{{ prefix }} <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.{{ aggr.name }}</a> { }</span>
+{%- endif %}
+	<span class='listsearch'>{{ mod.name }}.{{ aggr.name }}</span>
+</span>
+
+{%- endif -%}
