@@ -184,57 +184,27 @@ title: volt.guru
 	<span class='listname'>project <a class="vdoc-lnkblue" href="metal/">Metal</a> - Conducting bare metal research.</span>
 	<span class='listsearch'>project metal</span>
 </span>
+
 {%- for group in doc.groups -%}
-<span class='indexcommand mod'>
-	<span class='listname'>page <a class="vdoc-lnkblue" href="{{ group.url }}">{{ group.name }}</a></span>
-	<span class='listsearch'>{{ group.name }}</span>
-</span>
+{%- include index_group.html group=group -%}
 {%- endfor -%}
+
 {%- for mod in doc.modules -%}
-<span class='indexcommand mod'>
-	<span class='listname'>module <a class="vdoc-lnkblue" href="{{ mod.url }}">{{ mod.name }}</a></span>
-	<span class='listsearch'>{{ mod.name }}</span>
-</span>
+{%- include index_module.html mod=mod -%}
 {%- endfor -%}
+
 {%- for mod in doc.modules -%}
 {%- for class in mod.classes -%}
-<span class='indexcommand class'>
-{%- if class.url %}
-	<span class='listname'>class <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.</a><a class="vdoc-lnkblue" href="{{ class.url }}">{{ class.name }}</a> { }</span>
-{%- else %}
-	<span class='listname'>class <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.{{ class.name }}</a> { }</span>
-{%- endif %}
-	<span class='listsearch'>{{ mod.name }}.{{ class.name }}</span>
-</span>
+{%- include index_class.html mod=mod class=class -%}
 {%- endfor -%}
 {%- endfor -%}
+
 {%- for mod in doc.modules -%}
 {%- for func in mod.functions -%}
-<span class='indexcommand fn'>
-
-{%- if func.url %}
-	<span class='listname'>fn <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.</a><a class="vdoc-lnkblue" href="{{ func.url }}">{{ func.name }}</a>(
-{%- else %}
-	<span class='listname'>fn <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.{{ func.name }}</a>(
-{%- endif -%}
-
-{%- for arg in func.args -%}
-{{- arg.type -}}
-{%- unless forloop.last %}, {% endunless -%}
-{%- endfor %}) {% for r in func.rets -%}
-{{- r.type -}}
+{%- include index_fn.html mod=mod func=func -%}
 {%- endfor -%}
-{%- if func.hasBody %} { }{% endif -%}
-{%- unless func.hasBody -%};{% endunless -%}
-</span>
-	<span class='listsearch'>{{ mod.name }}.{{ func.name }}</span>
-</span>
-{%- endfor -%}
-{%- endfor -%}
+{%- endfor %}
 		</div>
 	</article>
 </body>
-</html>
-
-  </body>
 </html>
