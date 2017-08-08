@@ -1,0 +1,14 @@
+{%- assign mod = include.mod -%}
+{%- assign class = include.class -%}
+{%- if class.access == "public" -%}
+
+<span class='indexcommand class'>
+{%- if class.url %}
+	<span class='listname'>class <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.</a><a class="vdoc-lnkblue" href="{{ class.url }}">{{ class.name }}</a> { }</span>
+{%- else %}
+	<span class='listname'>class <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.{{ class.name }}</a> { }</span>
+{%- endif %}
+	<span class='listsearch'>{{ mod.name }}.{{ class.name }}</span>
+</span>
+
+{%- endif -%}
