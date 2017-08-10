@@ -4,9 +4,9 @@
 
 <span class='indexcommand alias'>
 {%- if alias.url %}
-	<span class='listname'>alias <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.</a><a class="vdoc-lnkblue" href="{{ alias.url }}">{{ alias.name }}</a></span>
+	<span class='listname'>alias <a class="v_idxmodlnk" href="{{ mod.url }}">{{ mod.name }}.</a><a class="v_idxnamelnk" href="{{ alias.url }}">{{ alias.name }}</a></span>
 {%- else %}
-	<span class='listname'>alias <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.{{ alias.name }}</a></span>
+	<span class='listname'>alias <a class="v_idxmodlnk" href="{{ mod.url }}">{{ mod.name }}.{{ alias.name }}</a></span>
 {%- endif %}
 	<span class='listsearch'>{{ mod.name }}.{{ alias.name }}</span>
 </span>

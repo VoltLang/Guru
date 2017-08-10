@@ -5,9 +5,9 @@
 
 <span class='indexcommand {{ prefix }}'>
 {%- if aggr.url %}
-	<span class='listname'>{{ prefix }} <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.</a><a class="vdoc-lnkblue" href="{{ aggr.url }}">{{ aggr.name }}</a> { }</span>
+	<span class='listname'>{{ prefix }} <a class="v_idxmodlnk" href="{{ mod.url }}">{{ mod.name }}.</a><a class="v_idxnamelnk" href="{{ aggr.url }}">{{ aggr.name }}</a> { }</span>
 {%- else %}
-	<span class='listname'>{{ prefix }} <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.{{ aggr.name }}</a> { }</span>
+	<span class='listname'>{{ prefix }} <a class="v_idxmodlnk" href="{{ mod.url }}">{{ mod.name }}.{{ aggr.name }}</a> { }</span>
 {%- endif %}
 	<span class='listsearch'>{{ mod.name }}.{{ aggr.name }}</span>
 </span>

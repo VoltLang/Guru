@@ -5,9 +5,9 @@
 <span class='indexcommand fn'>
 
 {%- if func.url %}
-	<span class='listname'>fn <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.</a><a class="vdoc-lnkblue" href="{{ func.url }}">{{ func.name }}</a>(
+	<span class='listname'>fn <a class="v_idxmodlnk" href="{{ mod.url }}">{{ mod.name }}.</a><a class="v_idxnamelnk" href="{{ func.url }}">{{ func.name }}</a>(
 {%- else %}
-	<span class='listname'>fn <a class="vdoc-lnk" href="{{ mod.url }}">{{ mod.name }}.{{ func.name }}</a>(
+	<span class='listname'>fn <a class="v_idxmodlnk" href="{{ mod.url }}">{{ mod.name }}.{{ func.name }}</a>(
 {%- endif -%}
 
 {%- for arg in func.args -%}
