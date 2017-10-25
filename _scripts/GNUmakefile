@@ -20,11 +20,21 @@ VOLTA ?= $(shell which volt)
 
 BASE_FLAGS=--no-backend -jo $@ \
 	--lib-I $(VOLTA_DIR)/rt/src \
-	--lib-I $(WATT_DIR)/src
+	--lib-I $(WATT_DIR)/src \
+	--lib-I $(WATT_DIR)/http/src \
+	--lib-I $(WATT_DIR)/json/src \
+	--lib-I $(WATT_DIR)/toml/src \
+	--lib-I $(WATT_DIR)/markdown/src
 
 VDOC_RT_FILES=$(shell find $(RT_DIR)/src -type f -name "*.volt")
 VDOC_AMP_FILES=$(shell find $(AMP_DIR)/src -type f -name "*.volt")
-VDOC_WATT_FILES=$(shell find $(WATT_DIR)/src -type f -name "*.volt")
+VDOC_WATT_FILES=$(shell find \
+	$(WATT_DIR)/src \
+	$(WATT_DIR)/http/src \
+	$(WATT_DIR)/json/src \
+	$(WATT_DIR)/toml/src \
+	$(WATT_DIR)/markdown/src \
+	-type f -name "*.volt")
 VDOC_VOLTA_FILES=$(VOLTA_DIR)/src/main.d
 VDOC_DIODE_FILES=$(shell find $(DIODE_DIR)/src -type f -name "*.volt")
 VDOC_TESLA_FILES=$(shell find $(TESLA_DIR)/src -type f -name "*.volt")
