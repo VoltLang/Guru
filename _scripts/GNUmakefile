@@ -8,7 +8,6 @@ VOLTA_DIR ?= volta
 DIODE_DIR ?= diode
 TESLA_DIR ?= tesla
 METAL_DIR ?= metal
-PARSEC_DIR ?= parsec
 CHARGE_DIR ?= charge
 BATTERY_DIR ?= battery
 
@@ -39,7 +38,6 @@ VDOC_VOLTA_FILES=$(VOLTA_DIR)/src/main.d
 VDOC_DIODE_FILES=$(shell find $(DIODE_DIR)/src -type f -name "*.volt")
 VDOC_TESLA_FILES=$(shell find $(TESLA_DIR)/src -type f -name "*.volt")
 VDOC_METAL_FILES=$(shell find $(METAL_DIR)/src -type f -name "*.volt")
-VDOC_PARSEC_FILES=$(shell find $(PARSEC_DIR)/src -type f -name "*.volt")
 VDOC_CHARGE_FILES=$(shell find $(CHARGE_DIR)/src -type f -name "*.volt")
 VDOC_BATTERY_FILES=$(shell find $(BATTERY_DIR)/src -type f -name "*.volt")
 
@@ -50,7 +48,6 @@ VOLTA_FLAGS = $(BASE_FLAGS) $(VDOC_VOLTA_FILES) --internal-d --src-I $(VOLTA_DIR
 DIODE_FLAGS = $(BASE_FLAGS) $(VDOC_DIODE_FILES) -J $(DIODE_DIR)/res
 TESLA_FLAGS = $(BASE_FLAGS) $(VDOC_TESLA_FILES)
 METAL_FLAGS = $(BASE_FLAGS) $(VDOC_METAL_FILES)
-PARSEC_FLAGS = $(BASE_FLAGS) $(VDOC_PARSEC_FILES)
 CHARGE_FLAGS = $(BASE_FLAGS) $(VDOC_CHARGE_FILES) -J $(CHARGE_DIR)/res
 BATTERY_FLAGS = $(BASE_FLAGS) $(VDOC_BATTERY_FILES)
 
@@ -62,7 +59,6 @@ VOLTA_JSON = $(JSON_DIR)/volta.json
 DIODE_JSON = $(JSON_DIR)/diode.json
 TESLA_JSON = $(JSON_DIR)/tesla.json
 METAL_JSON = $(JSON_DIR)/metal.json
-PARSEC_JSON = $(JSON_DIR)/parsec.json
 CHARGE_JSON = $(JSON_DIR)/charge.json
 BATTERY_JSON = $(JSON_DIR)/battery.json
 
@@ -74,7 +70,6 @@ VDOC_JSON = \
 	$(DIODE_JSON) \
 	$(TESLA_JSON) \
 	$(METAL_JSON) \
-	$(PARSEC_JSON) \
 	$(CHARGE_JSON) \
 	$(BATTERY_JSON)
 
@@ -119,11 +114,6 @@ $(METAL_JSON): $(VOLTA) $(VDOC_METAL_FILES)
 	@echo "  VOLTA    $@"
 	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(METAL_FLAGS)
-
-$(PARSEC_JSON): $(VOLTA) $(VDOC_PARSEC_FILES)
-	@echo "  VOLTA    $@"
-	@mkdir -p "$(dir $@)"
-	@$(VOLTA) $(PARSEC_FLAGS)
 
 $(CHARGE_JSON): $(VOLTA) $(VDOC_CHARGE_FILES)
 	@echo "  VOLTA    $@"
@@ -193,13 +183,6 @@ docu-metal: first $(METAL_JSON) $(DIODE)
 		--baseurl "$(BASE_URL)/metal" \
 		$(METAL_JSON)
 
-docu-parsec: first $(PARSEC_JSON) $(DIODE)
-	@echo "  DIODE    parsec"
-	@$(DIODE) \
-		-s $(PARSEC_DIR)/doc -d $(OUTPUT_DIR)/parsec \
-		--baseurl "$(BASE_URL)/parsec" \
-		$(PARSEC_JSON)
-
 docu-charge: first $(CHARGE_JSON) $(DIODE)
 	@echo "  DIODE    charge"
 	@$(DIODE) \
@@ -214,6 +197,6 @@ docu-battery: first $(BATTERY_JSON) $(DIODE)
 		--baseurl "$(BASE_URL)/battery" \
 		$(BATTERY_JSON)
 
-docu: docu-rt docu-amp docu-watt docu-volta docu-diode docu-tesla docu-metal docu-parsec docu-charge docu-battery
+docu: docu-rt docu-amp docu-watt docu-volta docu-diode docu-tesla docu-metal docu-charge docu-battery
 
 .PHONY: all guru first
