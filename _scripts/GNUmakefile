@@ -38,7 +38,10 @@ VDOC_VOLTA_FILES=$(VOLTA_DIR)/src/main.d
 VDOC_DIODE_FILES=$(shell find $(DIODE_DIR)/src -type f -name "*.volt")
 VDOC_TESLA_FILES=$(shell find $(TESLA_DIR)/src -type f -name "*.volt")
 VDOC_METAL_FILES=$(shell find $(METAL_DIR)/src -type f -name "*.volt")
-VDOC_CHARGE_FILES=$(shell find $(CHARGE_DIR)/src -type f -name "*.volt")
+VDOC_CHARGE_FILES=$(shell find \
+	$(CHARGE_DIR)/src \
+	$(CHARGE_DIR)/lib/src \
+	-type f -name "*.volt")
 VDOC_BATTERY_FILES=$(shell find $(BATTERY_DIR)/src -type f -name "*.volt")
 
 RT_FLAGS = $(BASE_FLAGS) $(VDOC_RT_FILES)
