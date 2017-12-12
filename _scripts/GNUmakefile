@@ -34,7 +34,10 @@ VDOC_WATT_FILES=$(shell find \
 	$(WATT_DIR)/toml/src \
 	$(WATT_DIR)/markdown/src \
 	-type f -name "*.volt")
-VDOC_VOLTA_FILES=$(VOLTA_DIR)/src/main.d
+VDOC_VOLTA_FILES=$(shell find \
+	$(VOLTA_DIR)/src \
+	$(VOLTA_DIR)/lib/src \
+	-type f -name "*.d")
 VDOC_DIODE_FILES=$(shell find $(DIODE_DIR)/src -type f -name "*.volt")
 VDOC_TESLA_FILES=$(shell find $(TESLA_DIR)/src -type f -name "*.volt")
 VDOC_METAL_FILES=$(shell find $(METAL_DIR)/src -type f -name "*.volt")
@@ -47,7 +50,7 @@ VDOC_BATTERY_FILES=$(shell find $(BATTERY_DIR)/src -type f -name "*.volt")
 RT_FLAGS = $(BASE_FLAGS) $(VDOC_RT_FILES)
 AMP_FLAGS = $(BASE_FLAGS) $(VDOC_AMP_FILES)
 WATT_FLAGS = $(BASE_FLAGS) $(VDOC_WATT_FILES)
-VOLTA_FLAGS = $(BASE_FLAGS) $(VDOC_VOLTA_FILES) --internal-d --src-I $(VOLTA_DIR)/src --src-I $(VOLTA_DIR)/lib/src
+VOLTA_FLAGS = $(BASE_FLAGS) $(VOLTA_DIR)/src/main.d --internal-d --src-I $(VOLTA_DIR)/src --src-I $(VOLTA_DIR)/lib/src
 DIODE_FLAGS = $(BASE_FLAGS) $(VDOC_DIODE_FILES) -J $(DIODE_DIR)/res
 TESLA_FLAGS = $(BASE_FLAGS) $(VDOC_TESLA_FILES)
 METAL_FLAGS = $(BASE_FLAGS) $(VDOC_METAL_FILES)
