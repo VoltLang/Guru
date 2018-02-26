@@ -48,7 +48,10 @@ VDOC_CHARGE_FILES=$(shell find \
 	$(CHARGE_DIR)/src \
 	$(CHARGE_DIR)/lib/src \
 	-type f -name "*.volt")
-VDOC_BATTERY_FILES=$(shell find $(BATTERY_DIR)/src -type f -name "*.volt")
+VDOC_BATTERY_FILES=$(shell find \
+	$(BATTERY_DIR)/src \
+	$(BATTERY_DIR)/lib/src \
+	-type f -name "*.volt")
 
 RT_FLAGS = $(BASE_FLAGS) $(VDOC_RT_FILES)
 AMP_FLAGS = $(BASE_FLAGS) $(VDOC_AMP_FILES)
