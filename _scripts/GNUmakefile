@@ -4,6 +4,7 @@ RT_DIR ?= $(VOLTA_DIR)/rt
 AMP_DIR ?= amp
 GURU_DIR ?= guru
 WATT_DIR ?= watt
+DEQP_DIR ?= deqp
 VOLTA_DIR ?= volta
 DIODE_DIR ?= diode
 TESLA_DIR ?= tesla
@@ -34,6 +35,9 @@ VDOC_WATT_FILES=$(shell find \
 	$(WATT_DIR)/toml/src \
 	$(WATT_DIR)/markdown/src \
 	-type f -name "*.volt")
+VDOC_DEQP_FILES=$(shell find \
+	$(DEQP_DIR)/src \
+	-type f -name "*.volt")
 VDOC_VOLTA_FILES=$(shell find \
 	$(VOLTA_DIR)/src \
 	$(VOLTA_DIR)/lib/src \
@@ -56,6 +60,7 @@ VDOC_BATTERY_FILES=$(shell find \
 RT_FLAGS = $(BASE_FLAGS) $(VDOC_RT_FILES)
 AMP_FLAGS = $(BASE_FLAGS) $(VDOC_AMP_FILES)
 WATT_FLAGS = $(BASE_FLAGS) $(VDOC_WATT_FILES)
+DEQP_FLAGS = $(BASE_FLAGS) $(VDOC_DEQP_FILES)
 VOLTA_FLAGS = $(BASE_FLAGS) $(VOLTA_DIR)/src/main.d --internal-d --src-I $(VOLTA_DIR)/src --src-I $(VOLTA_DIR)/lib/src
 DIODE_FLAGS = $(BASE_FLAGS) $(VDOC_DIODE_FILES) -J $(DIODE_DIR)/res
 TESLA_FLAGS = $(BASE_FLAGS) $(VDOC_TESLA_FILES)
@@ -67,6 +72,7 @@ BATTERY_FLAGS = $(BASE_FLAGS) $(VDOC_BATTERY_FILES)
 RT_JSON = $(JSON_DIR)/rt.json
 AMP_JSON = $(JSON_DIR)/amp.json
 WATT_JSON = $(JSON_DIR)/watt.json
+DEQP_JSON = $(JSON_DIR)/deqp.json
 VOLTA_JSON = $(JSON_DIR)/volta.json
 DIODE_JSON = $(JSON_DIR)/diode.json
 TESLA_JSON = $(JSON_DIR)/tesla.json
@@ -78,6 +84,7 @@ VDOC_JSON = \
 	$(RT_JSON) \
 	$(AMP_JSON) \
 	$(WATT_JSON) \
+	$(DEQP_JSON) \
 	$(VOLTA_JSON) \
 	$(DIODE_JSON) \
 	$(TESLA_JSON) \
@@ -106,6 +113,11 @@ $(WATT_JSON): $(VOLTA) $(VDOC_WATT_FILES)
 	@echo "  VOLTA    $@"
 	@mkdir -p "$(dir $@)"
 	@$(VOLTA) $(WATT_FLAGS)
+
+$(DEQP_JSON): $(VOLTA) $(VDOC_DEQP_FILES)
+	@echo "  VOLTA    $@"
+	@mkdir -p "$(dir $@)"
+	@$(VOLTA) $(DEQP_FLAGS)
 
 $(VOLTA_JSON): $(VOLTA) $(VDOC_VOLTA_FILES)
 	@echo "  VOLTA    $@"
@@ -167,6 +179,13 @@ docu-watt: first $(WATT_JSON) $(DIODE)
 		--baseurl "$(BASE_URL)/watt" \
 		$(WATT_JSON)
 
+docu-deqp: first $(DEQP_JSON) $(DIODE)
+	@echo "  DIODE    deqp"
+	@$(DIODE) \
+		-s $(DEQP_DIR)/doc -d $(OUTPUT_DIR)/deqp \
+		--baseurl "$(BASE_URL)/deqp" \
+		$(DEQP_JSON)
+
 docu-volta: first $(VOLTA_JSON) $(DIODE)
 	@echo "  DIODE    volta"
 	@$(DIODE) \
@@ -209,6 +228,6 @@ docu-battery: first $(BATTERY_JSON) $(DIODE)
 		--baseurl "$(BASE_URL)/battery" \
 		$(BATTERY_JSON)
 
-docu: docu-rt docu-amp docu-watt docu-volta docu-diode docu-tesla docu-metal docu-charge docu-battery
+docu: docu-rt docu-amp docu-watt docu-deqp docu-volta docu-diode docu-tesla docu-metal docu-charge docu-battery
 
 .PHONY: all guru first
